@@ -3,7 +3,7 @@
 # Objective
 As a developer our objective is to make things easy. This jQuery plugin will help you to add more forms dynamically. It will setup input naming as an array. You can disable naming as well.
 
-![final-output](./Screenshot.png)
+![final-output](Screenshot.png)
 
 # Pre-requirements
     - Latest jQuery  
@@ -55,12 +55,35 @@ options: {
 After applying this plugin, it will change the inputs name like below, and the indexes will be 0,1,2,3....and so on..
 
 ```HTML
-    <input type="text" name="employees[0][emp_name]">
-    <input type="text" name="employees[0][emp_code]">
-    <input type="text" name="employees[0][emp_position]">
+    <input type="text" name="employees[0][emp_name]" data-name="emp_name">
+    <input type="text" name="employees[0][emp_code]" data-name="emp_code">
+    <input type="text" name="employees[0][emp_position]" data-name="emp_position">
 ```
 
-Nothing complicated!
+So, when you submit this form you will get the `employees` array like below,
+
+```
+[
+    [
+        'emp_name' => ***,
+        'emp_code' => ***,
+        'emp_position' => ***
+    ],
+    [
+        'emp_name' => ***,
+        'emp_code' => ***,
+        'emp_position' => ***
+    ],
+    [
+        'emp_name' => ***,
+        'emp_code' => ***,
+        'emp_position' => ***
+    ],
+    ...
+]
+```
+
+If you have used the `disable-naming: true,` then it will not change the input naming to an array.
 
 # Contributor
 [Satpal Bhardwaj](https://sbsharma.com/javascript/)
