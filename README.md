@@ -1,89 +1,91 @@
-# jQuery Plugin to dynamically add more forms
+# jQuery Replicate Plugin Documentation
 
-# Objective
-As a developer our objective is to make things easy. This jQuery plugin will help you to add more forms dynamically. It will setup input naming as an array. You can disable naming as well.
+The jQuery Replicate plugin provides functionality to dynamically replicate and manage groups of input elements within a wrapper element. It allows you to easily add and remove groups of inputs while automatically updating the input names to support array-like naming conventions.
 
 ![final-output](Screenshot.png)
 
-# Pre-requirements
-    - Latest jQuery  
+## Usage
 
-# How to use
-# Step 1 : 
-Create a form element and inside that form we need a `wrapper div` > `group div` > `add button and remove button`.
-The concept is that it will clone the `group element` and append to the main `wrapper element`, So, wrapper will not going to change, only group elements will be add and remove.
-Each group element will consist `add button` and `remove button` which will help us to add and remove group elements. 
+To use the jQuery Replicate plugin, you need to include the jQuery library and the plugin file in your HTML document. For example:
 
-```HTML
-    <form action="" method="post">
-        <div class="" data-x-wrapper="employees">
-            <div class="" data-x-group>
-                <input type="text" name="emp_name">
-                <input type="text" name="emp_code">
-                <input type="text" name="emp_position">
-
-                <div>
-                    <button type="button" class="btn btn-danger" data-add-btn>-</button>
-                    <button type="button" class="btn btn-primary" data-remove-btn>+</button>
-                </div>
-            </div>
-        </div>
-        <div class="action-buttons">
-            <button type="submit" class="btn btn-primary">Submit</button>
-            <button type="button" class="btn btn-outline-danger">Cancel</button>
-        </div>
-    </form>
+```html
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="jquery.replicate.js"></script>
 ```
 
-# Step 2: 
-Initialize the plugin like below:
+Make sure to replace `jquery.replicate.js` with the actual path to the plugin file.
 
-```JavaScript
-$( selector ).replicate( options );
+## Initialization
+
+To initialize the plugin, call the `replicate` function on a jQuery object representing the container element. For example:
+
+```javascript
+$('#container').replicate(options);
 ```
 
-```
-options: {
-   disable-naming: boolean,
-   wrapper: string,
-   group: string,
-   add-btn: string,
-   remove-btn: string
-}
-```
+The `options` parameter is an object that specifies the configuration for the plugin. It must include the following properties:
 
-After applying this plugin, it will change the inputs name like below, and the indexes will be 0,1,2,3....and so on..
+- `wrapper`: A string specifying the attribute name of the wrapper element. This attribute will contain the name of the array.
+- `group`: A string specifying the selector for the group of elements to be replicated.
+- `addBtn`: A string specifying the selector for the "Add" button that triggers the addition of a new group.
+- `removeBtn`: A string specifying the selector for the "Remove" button that triggers the removal of a group.
 
-```HTML
-    <input type="text" name="employees[0][emp_name]" data-name="emp_name">
-    <input type="text" name="employees[0][emp_code]" data-name="emp_code">
-    <input type="text" name="employees[0][emp_position]" data-name="emp_position">
-```
+### Example Initialization
 
-So, when you submit this form you will get the `employees` array like below,
-
-```
-[
-    [
-        'emp_name' => ***,
-        'emp_code' => ***,
-        'emp_position' => ***
-    ],
-    [
-        'emp_name' => ***,
-        'emp_code' => ***,
-        'emp_position' => ***
-    ],
-    [
-        'emp_name' => ***,
-        'emp_code' => ***,
-        'emp_position' => ***
-    ],
-    ...
-]
+```javascript
+$('#container').replicate({
+  wrapper: 'data-wrapper',
+  group: '.group',
+  addBtn: '.add-button',
+  removeBtn: '.remove-button'
+});
 ```
 
-If you have used the `disable-naming: true,` then it will not change the input naming to an array.
+## Input Naming
+
+The plugin automatically updates the input names when adding or removing groups. It uses array-like naming conventions for the inputs to facilitate handling the data on the server-side. By default, the input names are set to `[arrayName][index][inputName]`.
+
+For example, if the `wrapper` attribute is set to `data-wrapper="myArray"`, and the input name is `inputName`, the resulting input name for the first group will be `myArray[0][inputName]`.
+
+### Disabling Naming
+
+You can disable the automatic naming for specific inputs by adding the attribute specified in the `disableNaming` option. If an input has this attribute, its name will not be updated when adding or removing groups.
+
+### Data Attribute Cache
+
+To prevent loss of input names during replication, the plugin utilizes the `data-name` attribute. If an input element does not have a `data-name` attribute, the plugin caches the original `name` attribute value for later use.
+
+## Events
+
+The plugin binds the necessary event handlers to the document to handle the "Add" and "Remove" button clicks. When the "Add" button is clicked, a new group is cloned and inserted after the current group. When the "Remove" button is clicked, the corresponding group is removed.
+
+## Error Handling
+
+If any of the required options (`wrapper`, `group`, `addBtn`, `removeBtn`) is missing when initializing the plugin, an error will be thrown.
+
+## License
+
+This plugin is released under the MIT License. See the `LICENSE` file for more information.
+
+## Example HTML Structure
+
+```html
+<div id="container" data-wrapper="myArray">
+  <div class="group">
+    <!-- Input elements -->
+    <input type="text" name="inputName" />
+    <!-- ... -->
+    <button class="remove-button">Remove</button>
+  </div>
+  <button class="add-button">Add</button>
+</div>
+```
+
+In the above example, the `container` element represents the wrapper element. The `group` class identifies the group of elements to be replicated. The "Add" and "Remove" buttons are specified with the `add-button` and `remove-button` classes, respectively.
+
+**Note:** Ensure that you have unique selectors for the `addBtn` and `removeBtn` options to avoid conflicts with other elements in your HTML document.
+
+That's it! You should now have a basic understanding of how to use the jQuery Replicate plugin. Enjoy replicating and managing groups of input elements effortlessly!
 
 # Contributor
 [Satpal Bhardwaj](https://sbsharma.com/javascript/)
